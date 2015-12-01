@@ -73,6 +73,15 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'mysite', 'static'),
 )
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # important! place right before django.contrib.staticfiles.finders.AppDirectoriesFinder
+    'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+
 SITE_ID = 1
 
 
@@ -92,10 +101,12 @@ TEMPLATES = [
                 'django.core.context_processors.tz',
                 'sekizai.context_processors.sekizai',
                 'django.core.context_processors.static',
-                'cms.context_processors.cms_settings'
+                'cms.context_processors.cms_settings',
+                'aldryn_boilerplates.context_processors.boilerplate'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
+                'aldryn_boilerplates.template_loaders.AppDirectoriesLoader',
                 'django.template.loaders.app_directories.Loader',
                 'django.template.loaders.eggs.Loader'
             ],
@@ -121,33 +132,47 @@ MIDDLEWARE_CLASSES = (
 
 INSTALLED_APPS = (
     'djangocms_admin_style',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.admin',
+    'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
-    'django.contrib.messages',
+
+
     'cms',
-    'menus',
-    'sekizai',
-    'treebeard',
     'djangocms_text_ckeditor',
-    'djangocms_style',
     'djangocms_column',
+    'djangocms_flash',
+    'djangocms_googlemap',
+    'djangocms_inherit',
+    'djangocms_link',
+    'djangocms_style',
+
     'filer',
-    'easy_thumbnails',
     'cmsplugin_filer_image',
     'cmsplugin_filer_file',
     'cmsplugin_filer_folder',
     'cmsplugin_filer_teaser',
     'cmsplugin_filer_utils',
     'cmsplugin_filer_video',
-    'djangocms_flash',
-    'djangocms_googlemap',
-    'djangocms_inherit',
-    'djangocms_link',
+
+    'aldryn_apphooks_config',
+    'aldryn_boilerplates',
+    'aldryn_categories',
+    'aldryn_newsblog',
+    'aldryn_people',
+    'aldryn_reversion',
+    'parler',
+    'sortedm2m',
+    'taggit',
+
+    'easy_thumbnails',
+    'menus',
+    'sekizai',
+    'treebeard',
     'reversion',
     'polls',
     'mysite'
@@ -208,6 +233,8 @@ MIGRATION_MODULES = {
     'djangocms_style': 'djangocms_style.migrations_django',
     'cmsplugin_filer_video': 'cmsplugin_filer_video.migrations_django'
 }
+
+ALDRYN_BOILERPLATE_NAME='bootstrap3'
 
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
